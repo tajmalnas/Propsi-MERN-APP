@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cors({
     credentials:true,
     methods:['GET','POST','PUT','DELETE'],
-    origin:'http://localhost:5173'
+    origin:'https://propsi-by-taj-malnas.onrender.com'
 }));
 
 app.use((req, res, next) => {
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 mongoose.connect(process.env.MONGO_URL);
 
 app.get('/', (req, res) => {
-    res.json('test');
+        res.json('test');
 });
   
 
@@ -112,6 +112,7 @@ app.get('/profile', (req, res) => {
 app.post('/logout', (req, res) => {
     res.cookie('token', '').json(true);
 });
+
 
 
 app.post('/upload-by-link', async (req, res) => {
@@ -276,18 +277,18 @@ app.get('/bookings',async (req,res)=>{
 })
 
 //-----------------------------------
-// const __dirname1 = path.resolve(__dirname);
-// if (process.env.NODE_ENV === 'production') {
-//     app.use(express.static(path.join(__dirname1, 'client', 'dist')));
+const __dirname1 = path.resolve(__dirname);
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname1, 'client', 'dist')));
 
-//     app.get('*', (req, res) => {
-//         res.sendFile(path.resolve(__dirname1, 'client', 'dist', 'index.html'));
-//     });
-// } else {
-//     app.get('/', (req, res) => {
-//         res.json('test');
-//     });
-// }
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname1, 'client', 'dist', 'index.html'));
+    });
+} else {
+    app.get('/', (req, res) => {
+        res.json('test');
+    });
+}
 
 //-----------------------------------
 
