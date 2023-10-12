@@ -12,9 +12,9 @@ const multer = require('multer')
 const fs = require('fs')
 const Place = require('./models/Place.js')
 const Booking = require('./models/Booking.js')
+const path = require('path');
 
 const jwtSecret = 'dskdhsjdhsdjsd';
-
 
 const app = express();
 
@@ -38,9 +38,6 @@ app.use((req, res, next) => {
 mongoose.connect(process.env.MONGO_URL);
   
 
-app.get('/test',(req,res)=>{
-    res.json('test');
-});
 
 app.post('/register',async (req,res)=>{
     const {name,email,password} = req.body;
@@ -273,6 +270,22 @@ app.get('/bookings',async (req,res)=>{
         res.json(await Booking.find({user:user.id}).populate('place'));
     });
 })
+
+//-----------------------------------
+const __dirname1 = path.resolve(__dirname, '..');
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname1, 'client', 'dist')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname1, 'client', 'dist', 'index.html'));
+    });
+} else {
+    app.get('/', (req, res) => {
+        res.json('test');
+    });
+}
+
+//-----------------------------------
 
 app.listen(4000,()=>{
     console.log('server on port 4000');
