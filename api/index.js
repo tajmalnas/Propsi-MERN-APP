@@ -26,6 +26,7 @@ app.use(express.json());
 
 app.use(cors({
     credentials:true,
+    methods:['GET','POST','PUT','DELETE'],
     origin:'http://localhost:5173'
 }));
 
@@ -272,7 +273,7 @@ app.get('/bookings',async (req,res)=>{
 })
 
 //-----------------------------------
-const __dirname1 = path.resolve(__dirname, '..');
+const __dirname1 = path.resolve(__dirname);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname1, 'client', 'dist')));
 
