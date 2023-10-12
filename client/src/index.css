@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input[type="text"] ,input[type="password"],input[type="number"],textarea{
+  @apply w-full border my-2 py-2 px-3 rounded-2xl;
+}
+textarea{
+  height: 120px;
+}
