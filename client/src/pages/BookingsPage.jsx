@@ -1,17 +1,29 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import AccountNav from "../AccountNav"
 import axios from "axios"
 import { differenceInCalendarDays, format } from "date-fns"
 import { Link } from "react-router-dom"
+import { UserContext } from "../UserContext"
 
 const BookingsPage = () => {
+    const { user } = useContext(UserContext);
     const [bookings,setBookings] = useState([])
-    useEffect(()=>{
-        axios.get('/bookings').then(({data})=>{
-            console.log(data);
-            setBookings(data)
-        })
-    },[])
+    useEffect(() => {
+        if (user) {
+            axios.get('/bookings', {
+                headers: {
+                    Authorization: `Bearer ${user.token}` // Attach the token to the Authorization header
+                }
+            })
+            .then(response => {
+                setBookings(response.data);
+            })
+            .catch(error => {
+                // Handle error, e.g., show an error message
+                console.error('Error fetching bookings:', error);
+            });
+        }
+    }, [user]);
   return (
     <div>
         <AccountNav/>

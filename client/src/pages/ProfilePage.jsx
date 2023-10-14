@@ -14,11 +14,16 @@ const ProfilePage = () => {
 
     let {subpage} = useParams();
 
-    const logout =async () => { 
-        await axios.post('/logout');
-        setUser(null)
-        setRedirect('/')
-    }
+    const logout = async () => {
+      try {
+          await axios.post('/logout');
+          setUser(null);
+          setRedirect('/');
+      } catch (error) {
+          console.error('Error logging out:', error);
+      }
+  }
+  
 
     if(subpage === undefined){
         subpage = 'profile'
