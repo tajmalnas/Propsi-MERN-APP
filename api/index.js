@@ -25,7 +25,7 @@ app.use('/uploads',express.static(__dirname+'/uploads'))
 app.use(express.json());
 
 const corsOptions = {
-    origin: 'http://localhost:5173', // Allow requests from localhost:5173
+    origin: ['http://localhost:5173','https://propsi-mern-app-lhx8.vercel.app'], // Allow requests from localhost:5173
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   };
   
@@ -79,9 +79,9 @@ app.post('/login', async (req, res) => {
         res.cookie('token', token, {
           httpOnly: true,
           sameSite: 'none',
-          secure: false, // Set to true in production (requires HTTPS)
+          secure: true, // Set to true in production (requires HTTPS)
         });
-        res.json(userDoc);
+        res.json(userDoc,token);
       } else {
         res.status(401).json({ status: 'error', message: 'Invalid email or password' });
       }
