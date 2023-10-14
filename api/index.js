@@ -24,11 +24,7 @@ app.use('/uploads',express.static(__dirname+'/uploads'))
 
 app.use(express.json());
 
-app.use(cors({
-    credentials:true,
-    methods:['GET','POST','PUT','DELETE'],
-    origin:'https://propsi-mern-app-lhx8.vercel.app/'
-}));
+app.use(cors());
 
 app.use((req, res, next) => {
     console.log('Cookies:', req.cookies);
