@@ -78,7 +78,7 @@ app.post('/login', async (req, res) => {
         );
         res.cookie('token', token, {
           httpOnly: true,
-          sameSite: 'None',
+          sameSite: 'Lax',
           secure: false, // Set to true in production (requires HTTPS)
         });
         res.json(userDoc);
