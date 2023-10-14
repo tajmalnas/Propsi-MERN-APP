@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(cors({
     credentials:true,
     methods:['GET','POST','PUT','DELETE'],
-    origin:'https://propsi-by-taj-malnas.onrender.com'
+    origin:'https://propsi-mern-app-lhx8.vercel.app/'
 }));
 
 app.use((req, res, next) => {
@@ -77,7 +77,7 @@ app.post('/login', async (req, res) => {
                 res.cookie('token',token, {
                     httpOnly: true,
                     sameSite: 'None', // or 'Lax' or 'Strict' depending on your requirements
-                    secure: true // Requires HTTPS
+                    // secure: true // Requires HTTPS
                 }).json(userDoc);
             })           
         } 
