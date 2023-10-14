@@ -269,13 +269,18 @@ app.post('/bookings',(req,res)=>{
         
 })
 
-app.get('/bookings',async (req,res)=>{
-    const {token} = req.cookies;    
-    jwt.verify(token, jwtSecret, {}, async (err, user) => {
-        if(err) throw err;
-        res.json(await Booking.find({user:user.id}).populate('place'));
-    });
-})
+app.get('/bookings', async (req, res) => {
+    const { token } = req.cookies;
+    try {
+        const decoded = jwt.verify(token, jwtSecret);
+        const userId = decoded.id;
+        const bookings = await Booking.find({ user: userId }).populate('place');
+        res.json(bookings);
+    } catch (error) {
+        console.error('JWT Verification Error:', error);
+        res.status(401).json({ status: 'error', message: 'Unauthorized' });
+    }
+});
 
 //-----------------------------------
 // const __dirname1 = path.resolve(__dirname);
