@@ -65,31 +65,31 @@ app.post('/register',async (req,res)=>{
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        const userDoc = await User.findOne({ email });
-        if (userDoc && bcrypt.compareSync(password, userDoc.password)) {
-            jwt.sign({email:userDoc.email,
-                id:userDoc._id,
-                name:userDoc.name
-            },
-            jwtSecret,
-            {},
-            (err,token)=>{
-                if (err) throw err;
-                res.cookie('token',token, {
-                    httpOnly: true,
-                    sameSite: 'None', // or 'Lax' or 'Strict' depending on your requirements
-                    // secure: true // Requires HTTPS
-                }).json(userDoc);
-            })           
-        } 
-        else {
-            res.status(401).json({ status: 'error', message: 'Invalid email or password' });
-        }
-    } 
-    catch (err) {
-        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+      const userDoc = await User.findOne({ email });
+      if (userDoc && bcrypt.compareSync(password, userDoc.password)) {
+        const token = jwt.sign(
+          {
+            email: userDoc.email,
+            id: userDoc._id,
+            name: userDoc.name,
+          },
+          jwtSecret,
+          {}
+        );
+        res.cookie('token', token, {
+          httpOnly: true,
+          sameSite: 'None',
+          secure: false, // Set to true in production (requires HTTPS)
+        });
+        res.json(userDoc);
+      } else {
+        res.status(401).json({ status: 'error', message: 'Invalid email or password' });
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ status: 'error', message: 'Internal Server Error' });
     }
-});
+  });
 
 
 app.get('/profile', (req, res) => {
@@ -243,45 +243,53 @@ app.get('/places',async (req,res)=>{
     res.json(await Place.find())
 })
 
-app.post('/bookings',(req,res)=>{
-    const {token} = req.cookies;
-    const {
-        place,
-        checkIn,
-        checkOut,
-        guests,
-        name,
-        phone,price} = req.body;
-        jwt.verify(token, jwtSecret, {}, async (err, user) => {
-            if(err) throw err;
-            Booking.create({place,
-                user:user.id,
-                checkIn,
-                checkOut,
-                guests,
-                name,
-                phone,price}).then((data)=>{
-                res.json(data);
-            }).catch((err)=>{
-                console.log(err);
-            })
+app.post('/bookings', async (req, res) => {
+    const { token } = req.cookies;
+    const { place, checkIn, checkOut, guests, name, phone, price } = req.body;
+    if (!token) {
+      return res.status(401).json({ status: 'error', message: 'Unauthorized' });
+    }
+  
+    jwt.verify(token, jwtSecret, {}, async (err, user) => {
+      if (err) {
+        console.error(err);
+        return res.status(401).json({ status: 'error', message: 'Unauthorized' });
+      }
+  
+      try {
+        const booking = await Booking.create({
+          place,
+          user: user.id,
+          checkIn,
+          checkOut,
+          guests,
+          name,
+          phone,
+          price,
         });
-        
-})
+        res.json(booking);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+      }
+    });
+  });
 
 app.get('/bookings', async (req, res) => {
-    const { token } = req.cookies;
-    try {
-        const decoded = jwt.verify(token, jwtSecret);
-        const userId = decoded.id;
-        const bookings = await Booking.find({ user: userId }).populate('place');
-        res.json(bookings);
-    } catch (error) {
-        console.error('JWT Verification Error:', error);
-        res.status(401).json({ status: 'error', message: 'Unauthorized' });
+    const token = req.cookies.token;
+    if (!token) {
+      return res.status(401).json({ status: 'error', message: 'Unauthorized' });
     }
-});
-
+  
+    try {
+      const decoded = jwt.verify(token, jwtSecret);
+      const bookings = await Booking.find({ user: decoded.id }).populate('place');
+      res.json(bookings);
+    } catch (err) {
+      console.error(err);
+      res.status(401).json({ status: 'error', message: 'Unauthorized' });
+    }
+  });
 //-----------------------------------
 // const __dirname1 = path.resolve(__dirname);
 // if (process.env.NODE_ENV === 'production') {
