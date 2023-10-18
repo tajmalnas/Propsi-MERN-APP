@@ -81,7 +81,8 @@ app.post('/login', async (req, res) => {
           sameSite: 'Lax',
           secure: true, // Set to true in production (requires HTTPS)
         });
-        res.json(userDoc,token);
+        // res.json(userDoc,token);
+          res.status(200).json({ message: 'Success' });
       } else {
         res.status(401).json({ status: 'error', message: 'Invalid email or password' });
       }
