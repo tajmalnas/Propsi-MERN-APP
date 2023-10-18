@@ -82,7 +82,7 @@ app.post('/login', async (req, res) => {
           secure: true, // Set to true in production (requires HTTPS)
         });
          // res.json();
-          res.status(200).json({ message: 'Success' },userDoc,token);
+          res.status(200).json(userDoc);
       } else {
         res.status(401).json({ status: 'error', message: 'Invalid email or password' });
       }
