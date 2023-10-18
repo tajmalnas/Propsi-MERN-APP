@@ -13,7 +13,7 @@ import PlacePage from './pages/PlacePage'
 import BookingsPage from './pages/BookingsPage'
 import SearchedPlaces from './pages/SearchedPlaces'
 axios.defaults.baseURL = 'https://propsi-mern-backend.onrender.com'
-axios.defaults.withCredentials = true
+// axios.defaults.withCredentials = true
 
 function App() {
   return (
