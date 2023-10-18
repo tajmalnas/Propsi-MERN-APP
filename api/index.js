@@ -29,7 +29,7 @@ app.use(express.json());
 //     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
 //   };
   
-  app.use(cors(corsOptions));
+  app.use(cors());
 
 app.use((req, res, next) => {
     console.log('Cookies:', req.cookies);
