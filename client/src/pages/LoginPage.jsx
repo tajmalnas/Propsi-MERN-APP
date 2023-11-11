@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom"
 import { UserContext } from "../UserContext";
 
@@ -28,6 +28,34 @@ const LoginPage = () => {
       alert("Login failed")
     }
   }
+
+  const {user,setReady} = useContext(UserContext);
+
+  useEffect(() => {
+    if (!user) {
+        const token = localStorage.getItem('token');
+
+        axios.get('/profile', {
+            headers: {
+                Authorization: `${token}`,
+            }
+        })
+        .then(({ data }) => {
+            console.log(data);
+            if (!data) {
+                setUser(null);
+            } 
+            else {
+                setUser(data);
+            }
+            setReady(true);
+        })
+        .catch(error => {
+            // Handle the error, e.g., show an error message or redirect to an error page
+            console.error('Error fetching user data:', error);
+        });
+    }
+}, []);
 
   if(redirect){
     return <Navigate to="/" />
