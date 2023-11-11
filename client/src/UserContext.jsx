@@ -11,28 +11,31 @@ export function UserContextProvider({ children }) {
     useEffect(() => {
         if (!user) {
             const token = localStorage.getItem('token');
-
-            axios.get('/profile', {
-                headers: {
-                    Authorization: `${token}`,
-                }
-            })
-            .then(({ data }) => {
-                console.log(data);
-                if (!data) {
-                    setUser(null);
-                } 
-                else {
-                    setUser(data);
-                }
-                setReady(true);
-            })
-            .catch(error => {
-                // Handle the error, e.g., show an error message or redirect to an error page
-                console.error('Error fetching user data:', error);
-            });
+            getProfile(token);
         }
     }, [user]); // Include user in the dependency array if you want the effect to run on user changes
+
+    const getProfile=async(token)=>{
+        await axios.get('/profile', {
+            headers: {
+                Authorization: `${token}`,
+            }
+        })
+        .then(({ data }) => {
+            console.log(data);
+            if (!data) {
+                setUser(null);
+            } 
+            else {
+                setUser(data);
+            }
+            setReady(true);
+        })
+        .catch(error => {
+            // Handle the error, e.g., show an error message or redirect to an error page
+            console.error('Error fetching user data:', error);
+        });
+    }
 
     return (
         <UserContext.Provider value={{ user, setUser, ready }}>
