@@ -2,7 +2,7 @@
 import { useContext, useState } from "react"
 import { UserContext } from "../UserContext"
 import { Navigate, useParams } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import PlacesPage from "./PlacesPage";
 import AccountNav from "../AccountNav";
 
@@ -16,7 +16,8 @@ const ProfilePage = () => {
 
     const logout = async () => {
       try {
-          await axios.post('/logout');
+          // await axios.post('/logout');
+          localStorage.removeItem('token');
           setUser(null);
           setRedirect('/');
       } catch (error) {

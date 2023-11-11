@@ -24,7 +24,7 @@ const SearchedPlaces = () => {
         <Link to={'/place/'+place._id} className="" key={i}>
           <div className="bg-gray-500 mb-2 rounded-2xl flex">
             {place.photos.length>0 && (
-              <img className="rounded-2xl object-cover aspect-square " src={'https://propsi-mern-backend.onrender.com/uploads/'+place.photos[0]} alt="" />
+              <img className="rounded-2xl object-cover aspect-square " src={'http://localhost:4000/uploads/'+place.photos[0]} alt="" />
             )}
           </div>
           <h3 className="font-bold truncate">{place.address}</h3>

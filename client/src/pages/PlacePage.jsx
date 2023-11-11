@@ -38,7 +38,7 @@ const PlacePage = () => {
                     <div className="flex flex-col justify-center items-center">
                     {place?.photos?.length>0 && place.photos.map((photo,i)=>(
                         <div key={i}>
-                        <img  className="aspect-square object-cover mb-4" src={"https://propsi-mern-backend.onrender.com/uploads/"+photo} alt=""/>
+                        <img  className="aspect-square object-cover mb-4" src={"http://localhost:4000/uploads/"+photo} alt=""/>
                         </div>
                     ))}
                     </div>
@@ -56,19 +56,19 @@ const PlacePage = () => {
                 <div >
                     {place.photos && place.photos.length>0 && (
                         <div>
-                            <img onClick={()=>setShowAllPhotos(true)} className="cursor-pointer aspect-square object-cover" src={"https://propsi-mern-backend.onrender.com/uploads/"+place.photos[0]} alt=""/>
+                            <img onClick={()=>setShowAllPhotos(true)} className="cursor-pointer aspect-square object-cover" src={"http://localhost:4000/uploads/"+place.photos[0]} alt=""/>
                         </div>
                     )}
                 </div>
                 <div className="grid lg:grid-cols-2 lg:gap-4">
                     <div className="overflow-hidden">
                     {place.photos && place.photos.length>1 && (
-                        <img onClick={()=>setShowAllPhotos(true)} className="cursor-pointer aspect-square object-cover" src={"https://propsi-mern-backend.onrender.com/uploads/"+place.photos[1]} alt=""/>
+                        <img onClick={()=>setShowAllPhotos(true)} className="cursor-pointer aspect-square object-cover" src={"http://localhost:4000/uploads/"+place.photos[1]} alt=""/>
                     )}
                     </div>
                     <div className="overflow-hidden">
                         {place.photos && place.photos.length>2 && (
-                            <img onClick={()=>setShowAllPhotos(true)} className="cursor-pointer aspect-square object-cover relative top-2" src={"https://propsi-mern-backend.onrender.com/uploads/"+place.photos[2]} alt=""/>
+                            <img onClick={()=>setShowAllPhotos(true)} className="cursor-pointer aspect-square object-cover relative top-2" src={"http://localhost:4000/uploads/"+place.photos[2]} alt=""/>
                         )} 
                     </div>
                 </div>

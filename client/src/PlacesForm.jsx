@@ -54,8 +54,11 @@ const PlacesForm = () => {
     const  savePlace =async (e) =>{
         e.preventDefault();
 
+        const token = localStorage.getItem('token');
+
         if(id){
-            await axios.put('/places',{
+            await axios.put('/places',
+            {   token,
                 id,
                 title,
                 address,
@@ -70,7 +73,8 @@ const PlacesForm = () => {
             })
         }
         else{
-            await axios.post('/places',{
+            await axios.post('/places',
+            {   token,
                 title,
                 address,
                 addedPhotos,

@@ -13,12 +13,14 @@ const LoginPage = () => {
   const submitHandler = async(e) => {
     e.preventDefault();
     try{ 
-      const data = await axios.post('/login',{
+      const {data} = await axios.post('/login',{
         email,
         password,
       },
       );
-      setUser(data)
+      console.log(data);
+      setUser(data.user)
+      localStorage.setItem('token',data.token);
       alert('Login Success')
       setRedirect(true);
     }

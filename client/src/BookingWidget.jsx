@@ -33,7 +33,10 @@ const BookingWidget = ({place}) => {
             setRedirect('/login')
             return;
         }
-        await axios.post('/bookings',{
+        const token = localStorage.getItem('token');
+        await axios.post('/bookings',
+        {
+            token,
             checkIn,
             checkOut,
             guests,

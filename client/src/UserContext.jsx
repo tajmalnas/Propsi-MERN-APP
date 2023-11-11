@@ -12,8 +12,13 @@ export function UserContextProvider({children}){
     useEffect(() => {
         if (!user) {
             let isMounted = true; // Flag to check if the component is still mounted
-        
-            axios.get('/profile')
+            const token = localStorage.getItem('token');
+            axios.get('/profile',{
+                headers: {
+                Authorization: `${token}`,
+            }
+            }
+            )
                 .then(({ data }) => {
                     if (isMounted) {
                         // Check if the component is still mounted before updating state

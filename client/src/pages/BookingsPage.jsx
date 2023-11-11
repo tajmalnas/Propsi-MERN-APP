@@ -10,10 +10,12 @@ const BookingsPage = () => {
     const [bookings,setBookings] = useState([])
     useEffect(() => {
         if (user) {
-            axios.get('/bookings', {
+            const token = localStorage.getItem('token');
+            console.log("bookings : ",token);
+            axios.get('/bookings',{
                 headers: {
-                    Authorization: `Bearer ${user.token}` // Attach the token to the Authorization header
-                }
+                    Authorization: `${token}`,
+                },
             })
             .then(response => {
                 setBookings(response.data);
@@ -33,7 +35,7 @@ const BookingsPage = () => {
                     <Link to={"/place/"+booking.place._id} key={i} className="flex gap-4 cursor-pointer bg-gray-200 p-4 rounded-2xl mt-4 ">
                         {booking.place.photos.length>0 && (
                             <div className="flex w-36 bg-gray-300 grow-0 shrink-0">
-                                <img className="object-cover" src={'https://propsi-mern-backend.onrender.com/uploads/'+booking.place.photos[0]} alt="" />
+                                <img className="object-cover" src={'http://localhost:4000/uploads/'+booking.place.photos[0]} alt="" />
                             </div>
                         )}
                         <div className="py-2">
