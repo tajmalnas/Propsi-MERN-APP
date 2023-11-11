@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext({});
 
@@ -15,26 +16,22 @@ export function UserContextProvider({ children }) {
         }
     }, [user]); // Include user in the dependency array if you want the effect to run on user changes
 
+    const navigate = useNavigate();
+
     const getProfile=async(token)=>{
-        await axios.get('/profile', {
+        const res = await axios.get('/profile', {
             headers: {
                 Authorization: `${token}`,
             }
         })
-        .then(({ data }) => {
-            console.log(data);
-            if (!data) {
-                setUser(null);
-            } 
-            else {
-                setUser(data);
-            }
+
+        if(res!==null){
+            setUser(res.data);
             setReady(true);
-        })
-        .catch(error => {
-            // Handle the error, e.g., show an error message or redirect to an error page
-            console.error('Error fetching user data:', error);
-        });
+        }
+        else{
+            navigate('/');
+        }
     }
 
     return (
