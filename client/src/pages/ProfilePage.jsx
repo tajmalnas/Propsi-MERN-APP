@@ -30,9 +30,9 @@ const ProfilePage = () => {
         subpage = 'profile'
     }
 
-    if(!ready){
-        return <div>Loading...</div>
-    }
+    // if(!ready){
+    //     return <div>Loading...</div>
+    // }
 
     if(!user && ready && !redirect){
         return <Navigate to="/login" />
