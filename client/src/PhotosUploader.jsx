@@ -28,7 +28,13 @@ const PhotosUploader = ({addedPhotos,onChange}) => {
             const {data:filenames} = res;
             let finalFiles = [];
             for(let i=0;i<filenames.length;i++){
-                finalFiles.push(filenames[i].slice(8,filenames[i].length));
+                let chr = filenames[i];
+                if(chr[0]==='u' && chr[1]==='p' && chr[2]==='l'){
+                    finalFiles.push(filenames[i].slice(8,filenames[i].length));
+                }
+                else{
+                    finalFiles.push(filenames[i]);
+                }
             }
             onChange(prev=>{
                 return [...prev,...finalFiles];
