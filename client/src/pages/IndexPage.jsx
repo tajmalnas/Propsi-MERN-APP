@@ -9,6 +9,15 @@ const IndexPage = () => {
       setPlaces(data)
     })
   },[])
+  if(places.length===0){
+    return(
+      <div>
+        <h2>
+          The places are loading it may take some seconds for first time
+        </h2>
+      </div>
+    )
+  }
   return (
     <div className="mt-8 grid gap-x-4 gap-y-8 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {places.length>0 && places.map((place,i)=>(
